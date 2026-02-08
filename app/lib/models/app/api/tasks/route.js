@@ -1,41 +1,17 @@
-import connectDB from "@/lib/db";
-import Task from "@/models/Task";
+import { connectDB } from "../../lib/db";
+import Task from "../../models/Task";
 
+// GET all tasks
 export async function GET() {
   await connectDB();
-  const tasks = await Task.find().sort({ createdAt: -1 });
+  const tasks = await Task.find();
   return Response.json(tasks);
 }
 
-export async function POST(req) {
+// POST create task
+export async function POST(request) {
   await connectDB();
-  const { title } = await req.json();
-
-  if (!title) {
-    return Response.json({ error: "Title required" }, { status: 400 });
-  }
-
-  const task = await Task.create({ title });
+  const body = await request.json();
+  const task = await Task.create(body);
   return Response.json(task, { status: 201 });
-}
-
-export async function PUT(req) {
-  await connectDB();
-  const { id, completed } = await req.json();
-
-  const task = await Task.findByIdAndUpdate(
-    id,
-    { completed },
-    { new: true }
-  );
-
-  return Response.json(task);
-}
-
-export async function DELETE(req) {
-  await connectDB();
-  const { id } = await req.json();
-
-  await Task.findByIdAndDelete(id);
-  return Response.json({ message: "Task deleted" });
 }
