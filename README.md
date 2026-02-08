@@ -41,3 +41,6 @@ task-manager-nextjs/
 │ └── Task.js
 ├── package.json
 ├── README.md
+Note: The project is deployed on Vercel as requested. 
+Due to deployment rate limits, further backend cache-control updates could not be redeployed within the submission window.
+
